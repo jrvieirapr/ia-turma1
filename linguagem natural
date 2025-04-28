@@ -43,3 +43,22 @@ modelo = Pipeline([
 
 #Treinar
 modelo.fit(df['frase'],df['categoria'])
+
+#Funcao para interpretar uma nova frase
+def interpretar_frase(frase):
+  categoria_prevista = modelo.predict([frase])[0]
+  print(f"Interpretação: '{frase}' - Categoria: '{categoria_prevista}'")
+
+
+# Testar com frases novas
+testes = [
+    "Você tem celular disponível?",
+    "Gostaria de uma cadeira para jogos",
+    "Quero uma película nova",
+    "Tem notebook potente para edição?",
+    "Quero teclado gamer com LED"
+]
+
+print("🎯 Classificação de frases em linguagem natural:")
+for frase in testes:
+    interpretar_frase(frase)
