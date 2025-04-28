@@ -1,0 +1,45 @@
+import pandas as pd #biblioteca para dados
+from sklearn.feature_extraction.text import TfidfVectorizer #trabalhar com vetor
+from sklearn.naive_bayes import MultinomialNB #modelo de classificacao
+from sklearn.pipeline import Pipeline
+
+#Dados a serem utilizados
+dados = {
+    'frase' : [
+        "Quero comprar um celular novo",
+        "Preciso de um notebook pra trabalho",
+        "Tem fone de ouvido bluetooth?",
+        "Quero um carregador portatil",
+        "Busco capa para celular",
+        "Preciso de um monitor grande",
+        "Quero teclado mecanico",
+        "Tem mouse gamer?",
+        "Quero pelicula para celular",
+        "Preciso de cadeira gamer"
+    ],
+    'categoria' : [
+        'Celular',
+        'Notebook',
+        'Fone de Ouvido',
+        'Carregador',
+        'Acessorio Celular',
+        'Monitor',
+        'Teclado',
+        'Mouse',
+        'Pelicula',
+        'Cadeira Gamer'
+    ]
+}
+
+#Criar data frame
+df = pd.DataFrame(dados)
+df
+
+#Normaliza dos dados - Padronizar
+modelo = Pipeline([
+    ('vetorizar', TfidfVectorizer()),
+    ('classificador', MultinomialNB())
+])
+
+#Treinar
+modelo.fit(df['frase'],df['categoria'])
