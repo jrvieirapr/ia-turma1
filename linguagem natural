@@ -59,6 +59,6 @@ testes = [
     "Quero teclado gamer com LED"
 ]
 
-print("🎯 Classificação de frases em linguagem natural:")
+print("Classificação de frases em linguagem natural:")
 for frase in testes:
     interpretar_frase(frase)
