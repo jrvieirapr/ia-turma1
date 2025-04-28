@@ -5,3 +5,37 @@ import matplotlib.pyplot as plt  # Biblioteca para criação de gráficos
 from sklearn.linear_model import LinearRegression  # Modelo de regressão linear da biblioteca Scikit-Learn
 from sklearn.model_selection import train_test_split  # Função para dividir os dados em treino e teste
 from sklearn.metrics import mean_squared_error  # Métrica para avaliar o erro da predição
+
+#Buscar informações da Apple (AAPL)
+df = yf.download('AAPL', start='2000-01-01', end='2025-04-28')
+#Vizualiar parte dos dados
+print(df.head())  
+#Criar um alvo para prever o preco, fechamento do dia seguinte
+df['Target'] = df['Close'].shift(-1)
+#Remover a ultima linha
+df = df[:-1] #Pq o target dela e NaN (Nulo)
+#Tamanho da tabela
+print(f"Tamanho da tabela: {len(df)}")
+#Definir variaveis de entrada (x) e saida (y)
+x = df[['Close']]
+y = df['Target']
+#Dividir os dados em treino e teste
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, shuffle=False)
+#Criar modelo
+modelo = LinearRegression()
+#Treinar modelo
+modelo.fit(x_train, y_train)
+#Prever os dados de teste
+predictions = modelo.predict(x_test)
+#Avaliar o modelo
+mse = mean_squared_error(y_test, predictions)
+print(f"Erro Quadratico Medio: {mse:.4f}")
+#Plotar o resultado
+plt.figure(figsize=(20, 10))#Tamanho do grafico
+plt.plot(y_test.index, y_test.values, label="Preço Real")#Target
+plt.plot(y_test.index, predictions, label="Previsão", linestyle="--")
+plt.title("Previsão de Preço da Ação")
+plt.xlabel("Data")
+plt.ylabel("Preço USD")
+plt.legend()
+plt.show()
