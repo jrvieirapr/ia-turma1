@@ -1,5 +1,29 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+import pandas as pd  # Manipulação de dados (tabelas, CSV, Excel)
+import numpy as np  # Operações numéricas e matrizes
+import matplotlib.pyplot as plt  # Gráficos e visualizações
+from sklearn.cluster import KMeans  # Algoritmo de agrupamento de dados
+from sklearn.preprocessing import StandardScaler  # Normalização dos dados (padrão z-score)
+
+#Simular um cadastro ate 100 clientes
+np.random.seed(42)
+n_clientes = 100
+
+dados = {
+    'clientes': [f'Cliente {i}' for i in range(n_clientes)],
+    'faturamento' : np.random.randint(100,20000,n_clientes),
+    'frequencia' : np.random.randint(1,100,n_clientes),
+}
+#Criar o dataframe
+df = pd.DataFrame(dados)
+print('Dados:')
+print(df.head())
+#Normalizar dados
+scaler = StandardScaler()
+df[['faturamento_norm','frequencia_norm']] = scaler.fit_transform(df[['faturamento','frequencia']])
+print('Dados:')
+print(df.head())
+#Aplicar o modelo
+kmeans = KMeans(n_clusters=5,random_state=0)
+df['cluster'] = kmeans.fit_predict(df[['faturamento_norm','frequencia_norm']])
+print('Dados:')
+print(df.head())
